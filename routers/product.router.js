@@ -12,6 +12,8 @@ const {
   addCatepage,
   addSubCate,
   addSubCatePage,
+  addProduct,
+  addProductPage,
 } = require("../controllers/product.controller");
 const { isAuth } = require("../middlewares/isAuth");
 
@@ -22,6 +24,9 @@ proRouter.post("/addCate", isAuth, addCate);
 
 proRouter.get("/addSubCate", isAuth, addSubCatePage);
 proRouter.post("/addSubCate", isAuth, addSubCate);
+
+proRouter.get("/addProduct", isAuth, addProductPage);
+proRouter.post("/addProduct", isAuth, addProduct);
 
 proRouter.get("/likePost/:id", isAuth, likePost);
 proRouter.get("/editPost/:id", isAuth, editPost);

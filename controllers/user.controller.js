@@ -1,4 +1,4 @@
-const postModel = require("../models/post.model");
+const postModel = require("../models/product.model");
 const userModel = require("../models/user.model");
 const fs = require("fs");
 const path = require("path");
@@ -25,7 +25,7 @@ const addUser = async (req, res) => {
 const addUserPage = async (req, res) => {
   try {
     const { name, username, email, password } = req.body;
-    const image = req.file.path;
+    const image = req.file.buffer;
 
     const user = await userModel.findOne({ email });
     if (user)

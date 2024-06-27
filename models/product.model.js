@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const productSchema = mongoose.Schema({
-  name: String,
+  proname: String,
   disc: String,
   price: Number,
   discount: Number,
@@ -10,9 +10,9 @@ const productSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-  company: {
+  subCat: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "company",
+    ref: "subCat",
   },
 });
 

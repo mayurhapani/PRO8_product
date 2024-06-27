@@ -1,8 +1,8 @@
 const fs = require("fs");
 const path = require("path");
-const companyModel = require("../models/company.model");
 const categoryModel = require("../models/category.model");
 const subCateModel = require("../models/subCate.model");
+const productModel = require("../models/product.model");
 
 const myPost = async (req, res) => {
   res.render("myblogs");
@@ -16,7 +16,6 @@ const addCatepage = async (req, res) => {
     console.log(error);
   }
 };
-
 const addCate = async (req, res) => {
   try {
     const { cate_name } = req.body;
@@ -39,11 +38,37 @@ const addSubCatePage = async (req, res) => {
     console.log(error);
   }
 };
-
 const addSubCate = async (req, res) => {
   try {
     const { subCate_name, category } = req.body;
     await subCateModel.create({ subCate_name, category });
+
+    req.flash("flashMsg", "categoryAdded");
+    res.redirect("/myProducts");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addProductPage = async (req, res) => {
+  try {
+    const user = req.user;
+    const subCates = await subCateModel.find({});
+
+    res.render("addProduct", { user, subCates });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const addProduct = async (req, res) => {
+  try {
+    const { proname, disc, price, discount, subCat } = req.body;
+    const user = req.user._id;
+    const image = req.file.buffer;
+    console.log(user);
+
+    console.log(proname, disc, price, discount, subCat, user, image);
+    // await productModel.create({ proname, disc, price, discount, subCat, user, image });
 
     req.flash("flashMsg", "categoryAdded");
     res.redirect("/myProducts");
@@ -139,4 +164,6 @@ module.exports = {
   addCatepage,
   addSubCate,
   addSubCatePage,
+  addProduct,
+  addProductPage,
 };
