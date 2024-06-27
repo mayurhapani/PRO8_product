@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const categorySchema = new mongoose.Schema({
-  name: String,
+  cate_name: String,
 });
 
 const categoryModel = mongoose.model("category", categorySchema);

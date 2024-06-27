@@ -19,8 +19,8 @@ const addCatepage = async (req, res) => {
 
 const addCate = async (req, res) => {
   try {
-    const { name } = req.body;
-    await categoryModel.create({ name });
+    const { cate_name } = req.body;
+    await categoryModel.create({ cate_name });
 
     req.flash("flashMsg", "categoryAdded");
     res.redirect("/myProducts");
@@ -33,7 +33,6 @@ const addSubCatePage = async (req, res) => {
   try {
     const user = req.user;
     const cates = await categoryModel.find({});
-    console.log(cates);
 
     res.render("addSubCate", { user, cates });
   } catch (error) {
@@ -43,8 +42,8 @@ const addSubCatePage = async (req, res) => {
 
 const addSubCate = async (req, res) => {
   try {
-    const { name } = req.body;
-    subCateModel.create({ name });
+    const { subCate_name, category } = req.body;
+    await subCateModel.create({ subCate_name, category });
 
     req.flash("flashMsg", "categoryAdded");
     res.redirect("/myProducts");
