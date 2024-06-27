@@ -11,11 +11,15 @@
       <div class="basis-9/12 bg-zinc-900 min-h-screen w-full p-10">
         <!-- Display flash messages -->
         <% if (messages.length > 0) { %> <% messages.forEach(message => { %> <% if (message
-        ==='postAdded') { %>
+        ==='categoryAdded') { %>
         <p class="text-green-600 text-xl font-semibold py-5 ps-5 bg-green-200 mb-5 rounded-lg">
-          New Blog Added Successfully
+          New Category Added Successfully
         </p>
-        <% } %> <% if (message ==='deletePost') { %>
+        <% } %> <% if (message ==='companyAdded') { %>
+        <p class="text-green-600 text-xl font-semibold py-5 ps-5 bg-green-200 mb-5 rounded-lg">
+          New Company Added Successfully
+        </p>
+        <% } %><% if (message ==='deletePost') { %>
         <p class="text-red-600 text-xl font-semibold py-5 ps-5 bg-red-200 mb-5 rounded-lg">
           Blog Deleted Successfully
         </p>

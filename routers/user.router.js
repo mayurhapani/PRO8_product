@@ -15,7 +15,7 @@ const {
   edituser,
   editUserPage,
   allBlogs,
-  myblogs,
+  myProducts,
   deleteuser,
   changePassword,
   changePasswordPage,
@@ -30,11 +30,12 @@ router.get("/addUser", addUser);
 router.get("/login", login);
 router.get("/edituser", isAuth, edituser);
 router.get("/", isAuth, allBlogs);
-router.get("/myblogs", isAuth, myblogs);
-router.delete("/deleteUser", isAuth, deleteuser);
+
+router.get("/myProducts", isAuth, myProducts);
 
 router.post("/addUser", imageUpload, userInput, addUserPage);
 router.patch("/editeduser", isAuth, imageUpload, editUserPage);
+router.delete("/deleteUser", isAuth, deleteuser);
 
 router.get("/changePassword", isAuth, changePasswordPage);
 router.post("/changePassword", isAuth, changePassword);

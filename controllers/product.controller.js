@@ -1,33 +1,53 @@
-const postModel = require("../models/post.model");
 const fs = require("fs");
 const path = require("path");
+const companyModel = require("../models/company.model");
+const categoryModel = require("../models/category.model");
+const subCateModel = require("../models/subCate.model");
 
 const myPost = async (req, res) => {
-  try {
-    res.render("myblogs");
-  } catch (error) {
-    console.log(error);
-  }
+  res.render("myblogs");
 };
 
-const addPost = async (req, res) => {
+const addCatepage = async (req, res) => {
   try {
     const user = req.user;
-    res.render("addpost", { user });
+    res.render("addCate", { user });
   } catch (error) {
     console.log(error);
   }
 };
 
-const addPostpage = async (req, res) => {
+const addCate = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    const image = req.file.path;
+    const { name } = req.body;
+    await categoryModel.create({ name });
 
-    const post = postModel.create({ title, content, image, user: req.user._id });
+    req.flash("flashMsg", "categoryAdded");
+    res.redirect("/myProducts");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    req.flash("flashMsg", "postAdded");
-    res.redirect("/myblogs");
+const addSubCatePage = async (req, res) => {
+  try {
+    const user = req.user;
+    const cates = await categoryModel.find({});
+    console.log(cates);
+
+    res.render("addSubCate", { user, cates });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addSubCate = async (req, res) => {
+  try {
+    const { name } = req.body;
+    subCateModel.create({ name });
+
+    req.flash("flashMsg", "categoryAdded");
+    res.redirect("/myProducts");
   } catch (error) {
     console.log(error);
   }
@@ -110,4 +130,14 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports = { myPost, likePost, editPost, editPostPage, deletePost, addPost, addPostpage };
+module.exports = {
+  myPost,
+  likePost,
+  editPost,
+  editPostPage,
+  deletePost,
+  addCate,
+  addCatepage,
+  addSubCate,
+  addSubCatePage,
+};

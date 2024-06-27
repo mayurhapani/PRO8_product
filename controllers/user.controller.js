@@ -82,12 +82,12 @@ const editUserPage = async (req, res) => {
   }
 };
 
-const myblogs = async (req, res) => {
+const myProducts = async (req, res) => {
   try {
     const user = req.user;
     const myPosts = await postModel.find({ user: user._id });
 
-    res.render("myblogs", { user, myPosts, messages: req.flash("flashMsg") });
+    res.render("myProducts", { user, myPosts, messages: req.flash("flashMsg") });
   } catch (error) {
     console.log(error);
   }
@@ -252,7 +252,7 @@ module.exports = {
   addUserPage,
   login,
   loginAuth,
-  myblogs,
+  myProducts,
   edituser,
   editUserPage,
   deleteuser,

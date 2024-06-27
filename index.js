@@ -4,7 +4,7 @@ port = 8002;
 
 const db = require("./config/database");
 const { router } = require("./routers/user.router");
-const { postRouter } = require("./routers/post.router");
+const { proRouter } = require("./routers/product.router");
 const flash = require("connect-flash");
 
 const passport = require("passport");
@@ -28,7 +28,7 @@ localAuth(passport);
 app.use(flash());
 
 app.use(router);
-app.use(postRouter);
+app.use("/product", proRouter);
 
 app.listen(port, (err) => {
   db();
