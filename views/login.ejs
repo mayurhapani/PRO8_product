@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+
+  <body>
+    <div class="bg-zinc-900 h-screen w-full">
+      <% if (messages.length > 0) { %> <% messages.forEach(message => { %> <% if (message
+      ==='deleteUser') { %>
+      <p class="text-red-700 text-xl font-semibold py-5 ps-5 bg-red-300 mb-5 rounded-lg">
+        User Deleted Successfully
+      </p>
+      <% } %> <% if (message ==='userLogout') { %>
+      <p class="text-yellow-600 text-xl font-semibold py-5 ps-5 bg-yellow-200 mb-5 rounded-lg">
+        User Deleted Successfully
+      </p>
+      <% } %> <% }) %> <% } %>
+      <div class="flex flex-col justify-center items-center p-20">
+        <h2 class="text-center text-white text-4xl mb-20 font-bold">Login User</h2>
+        <form class="text-zinc-400 flex flex-col w-1/3" action="/login" method="post">
+          <input
+            class="bg-transparent border border-zinc-600 p-3 rounded-lg mb-5"
+            type="text"
+            name="username"
+            placeholder="Enter username"
+          />
+          <input
+            class="bg-transparent border border-zinc-600 p-3 rounded-lg mb-10"
+            type="password"
+            name="password"
+            placeholder="Enter password"
+          />
+
+          <input class="bg-blue-500 p-3 rounded-lg mb-3 text-white" type="submit" value="Submit" />
+        </form>
+        <p class="text-center text-white text-sm mt-10">
+          Forgot Password ? <a class="text-blue-500" href="/forget">Click to Reset Password</a>
+        </p>
+        <p class="text-center text-white text-sm mt-5">
+          Don't have an account? <a class="text-blue-500" href="/addUser">Sign Up</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
