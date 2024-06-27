@@ -1,6 +1,7 @@
 const verifyOtpEmail = (req, res, next) => {
-  console.log("verifyOtpEmail", req.vUserEmail);
-  if (req.vUserEmail) {
+  const userEmail = req.cookies.userEmail;
+
+  if (userEmail) {
     return next();
   }
   res.redirect("/login");

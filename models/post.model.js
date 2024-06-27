@@ -1,25 +1,21 @@
 const mongoose = require("mongoose");
 
-const postSchema = mongoose.Schema({
+const productSchema = mongoose.Schema({
+  name: String,
+  disc: String,
+  price: Number,
+  discount: Number,
+  image: Buffer,
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-  date: {
-    type: Date,
-    default: Date.now,
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "company",
   },
-  title: String,
-  content: String,
-  image: String,
-  likes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-    },
-  ],
 });
 
-const postModel = mongoose.model("post", postSchema);
+const productModel = mongoose.model("product", productSchema);
 
-module.exports = postModel;
+module.exports = productModel;
