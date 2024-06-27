@@ -14,7 +14,7 @@ const {
   login,
   edituser,
   editUserPage,
-  allBlogs,
+  allProducts,
   myProducts,
   deleteuser,
   changePassword,
@@ -26,10 +26,11 @@ const {
   otpPassword,
 } = require("../controllers/user.controller");
 
+router.get("/", isAuth, allProducts);
+
 router.get("/addUser", addUser);
 router.get("/login", login);
 router.get("/edituser", isAuth, edituser);
-router.get("/", isAuth, allBlogs);
 
 router.get("/myProducts", isAuth, myProducts);
 

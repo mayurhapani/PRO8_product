@@ -1,18 +1,18 @@
-const postModel = require("../models/product.model");
 const userModel = require("../models/user.model");
 const fs = require("fs");
 const path = require("path");
 const mailer = require("nodemailer");
+const productModel = require("../models/product.model");
 
 let otp = "";
 // let vUserEmail = "";
 
-const allBlogs = async (req, res) => {
+const allProducts = async (req, res) => {
   try {
     const user = req.user;
-    const posts = await postModel.find({}).populate("user");
+    const myProducts = await productModel.find({}).populate("user");
 
-    res.render("index", { user, posts });
+    res.render("index", { user, myProducts });
   } catch (error) {
     console.log(error);
   }
@@ -85,9 +85,9 @@ const editUserPage = async (req, res) => {
 const myProducts = async (req, res) => {
   try {
     const user = req.user;
-    const myPosts = await postModel.find({ user: user._id });
+    const myProducts = await productModel.find({}).populate("user");
 
-    res.render("myProducts", { user, myPosts, messages: req.flash("flashMsg") });
+    res.render("myProducts", { user, myProducts, messages: req.flash("flashMsg") });
   } catch (error) {
     console.log(error);
   }
@@ -247,7 +247,7 @@ const otpPassword = async (req, res) => {
 };
 
 module.exports = {
-  allBlogs,
+  allProducts,
   addUser,
   addUserPage,
   login,

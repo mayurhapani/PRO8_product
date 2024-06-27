@@ -67,8 +67,7 @@ const addProduct = async (req, res) => {
     const image = req.file.buffer;
     console.log(user);
 
-    console.log(proname, disc, price, discount, subCat, user, image);
-    // await productModel.create({ proname, disc, price, discount, subCat, user, image });
+    await productModel.create({ proname, disc, price, discount, subCat, user, image });
 
     req.flash("flashMsg", "categoryAdded");
     res.redirect("/myProducts");

@@ -26,7 +26,7 @@ proRouter.get("/addSubCate", isAuth, addSubCatePage);
 proRouter.post("/addSubCate", isAuth, addSubCate);
 
 proRouter.get("/addProduct", isAuth, addProductPage);
-proRouter.post("/addProduct", isAuth, addProduct);
+proRouter.post("/addProduct", isAuth, imageUpload, addProduct);
 
 proRouter.get("/likePost/:id", isAuth, likePost);
 proRouter.get("/editPost/:id", isAuth, editPost);
