@@ -1,5 +1,3 @@
-const fs = require("fs");
-const path = require("path");
 const categoryModel = require("../models/category.model");
 const subCateModel = require("../models/subCate.model");
 const productModel = require("../models/product.model");

@@ -3,8 +3,10 @@ const fs = require("fs");
 const path = require("path");
 const mailer = require("nodemailer");
 const productModel = require("../models/product.model");
+const jwt = require("jsonwebtoken");
 
 let otp = "";
+const secret = "secret";
 // let vUserEmail = "";
 
 const allProducts = async (req, res) => {
@@ -24,17 +26,84 @@ const addUser = async (req, res) => {
 
 const addUserPage = async (req, res) => {
   try {
+    const { userOtp } = req.body;
+    // console.log(userOtp, otp);
+
+    if (otp == userOtp) {
+      const userData = req.cookies.userData;
+      const user = jwt.verify(userData, secret);
+      const imagePath = user.imagePath;
+
+      const image = fs.readFileSync(imagePath);
+
+      await userModel.create({
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        image,
+      });
+
+      fs.unlinkSync(imagePath);
+      res.clearCookie("userData");
+      res.redirect("/login");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const userOptPage = async (req, res) => {
+  try {
     const { name, username, email, password } = req.body;
-    const image = req.file.buffer;
+    const imagePath = req.userImagePath;
 
     const user = await userModel.findOne({ email });
     if (user)
       return res.status(400).send("User already exist! <br/> Please use other email id......");
 
-    await userModel.create({ name, username, email, password, image });
-    res.redirect("/login");
+    const userData = { name, username, email, password, imagePath };
+    const token = jwt.sign(userData, secret);
+
+    res.cookie("userData", token);
+    res.redirect("/addUserOtp");
   } catch (err) {
     console.log(err);
+  }
+};
+
+const userOtp = async (req, res) => {
+  try {
+    otp = Math.floor(Math.random() * 900000);
+
+    const userData = req.cookies.userData;
+    const user = jwt.verify(userData, secret);
+
+    const transporter = mailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "hapanimayur@gmail.com",
+        pass: "ofwo yiky rskz wxkt",
+      },
+    });
+
+    const sendMail = {
+      from: "hapanimayur@gmail.com",
+      to: user.email,
+      subject: "Register User Verification OTP",
+      text: otp.toString(),
+    };
+
+    transporter.sendMail(sendMail, (err, info) => {
+      if (err) console.log(err);
+      else {
+        console.log(info);
+      }
+    });
+
+    res.render("addUserOtp");
+  } catch (error) {
+    console.log(error.message);
   }
 };
 
@@ -97,23 +166,6 @@ const deleteuser = async (req, res) => {
   try {
     const id = req.user.id;
 
-    let subImagePath = req.user.image.replace(/\\/g, "/");
-    if (subImagePath.startsWith("public/")) {
-      subImagePath = subImagePath.substring("public/".length);
-    }
-    const imagePath = path.join(__dirname, "..", "public", subImagePath);
-
-    console.log(`Deleting user with ID: ${id}`);
-    console.log(`Image path: ${imagePath}`);
-
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath);
-      console.log(`Deleted image at path: ${imagePath}`);
-    } else {
-      console.log("Image file does not exist.");
-    }
-
-    await postModel.deleteMany({ user: id });
     await userModel.findOneAndDelete({ _id: id });
     console.log("User and associated posts deleted successfully");
     req.flash("flashMsg", "deleteUser");
@@ -208,6 +260,7 @@ const otpVerification = async (req, res) => {
     if (otp != "") {
       const userOTP = req.body.otp;
       if (otp == userOTP) {
+        otp = "";
         res.render("newPassword");
       } else {
         res.clearCookie("userEmail");
@@ -250,6 +303,8 @@ module.exports = {
   allProducts,
   addUser,
   addUserPage,
+  userOptPage,
+  userOtp,
   login,
   loginAuth,
   myProducts,

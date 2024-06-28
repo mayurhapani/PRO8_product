@@ -2,15 +2,17 @@ const { Router } = require("express");
 const router = Router();
 
 const { userInput } = require("../middlewares/userInput.middleware");
-
 const { imageUpload } = require("../middlewares/fileUpload.middleware");
 const { isAuth } = require("../middlewares/isAuth");
+const { isImage } = require("../middlewares/isImage");
 const { verifyOtpEmail } = require("../middlewares/verifyOptEmail");
 const passport = require("passport");
 
 const {
   addUser,
   addUserPage,
+  userOtp,
+  userOptPage,
   login,
   edituser,
   editUserPage,
@@ -29,7 +31,9 @@ const {
 router.get("/", isAuth, allProducts);
 
 router.get("/addUser", addUser);
-router.post("/addUser", imageUpload, userInput, addUserPage);
+router.post("/addUser", imageUpload, isImage, userInput, userOptPage);
+router.get("/addUserOtp", userOtp);
+router.post("/addUserOtp", isImage, addUserPage);
 
 router.get("/login", login);
 router.get("/edituser", isAuth, edituser);
