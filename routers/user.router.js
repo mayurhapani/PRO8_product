@@ -29,14 +29,15 @@ const {
 router.get("/", isAuth, allProducts);
 
 router.get("/addUser", addUser);
+router.post("/addUser", imageUpload, userInput, addUserPage);
+
 router.get("/login", login);
 router.get("/edituser", isAuth, edituser);
+router.patch("/editeduser", isAuth, imageUpload, editUserPage);
+
+router.delete("/deleteUser", isAuth, deleteuser);
 
 router.get("/myProducts", isAuth, myProducts);
-
-router.post("/addUser", imageUpload, userInput, addUserPage);
-router.patch("/editeduser", isAuth, imageUpload, editUserPage);
-router.delete("/deleteUser", isAuth, deleteuser);
 
 router.get("/changePassword", isAuth, changePasswordPage);
 router.post("/changePassword", isAuth, changePassword);

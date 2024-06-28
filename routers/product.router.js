@@ -4,9 +4,7 @@ const proRouter = Router();
 const { imageUpload } = require("../middlewares/fileUpload.middleware");
 const {
   myPost,
-  likePost,
-  editPost,
-  editPostPage,
+
   deletePost,
   addCate,
   addCatepage,
@@ -14,6 +12,8 @@ const {
   addSubCatePage,
   addProduct,
   addProductPage,
+  editProduct,
+  editProductPage,
 } = require("../controllers/product.controller");
 const { isAuth } = require("../middlewares/isAuth");
 
@@ -28,10 +28,9 @@ proRouter.post("/addSubCate", isAuth, addSubCate);
 proRouter.get("/addProduct", isAuth, addProductPage);
 proRouter.post("/addProduct", isAuth, imageUpload, addProduct);
 
-proRouter.get("/likePost/:id", isAuth, likePost);
-proRouter.get("/editPost/:id", isAuth, editPost);
-proRouter.get("/deletePost/:id", isAuth, deletePost);
+proRouter.get("/editProduct/:id", isAuth, editProductPage);
+proRouter.post("/editProduct", isAuth, imageUpload, editProduct);
 
-proRouter.post("/editPost/:id", isAuth, imageUpload, editPostPage);
+proRouter.get("/deletePost/:id", isAuth, deletePost);
 
 module.exports = { proRouter };

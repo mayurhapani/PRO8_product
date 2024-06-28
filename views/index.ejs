@@ -21,25 +21,37 @@
         <h3 class="text-zinc-400 text-xl mb-5">All Products</h3>
 
         <div class="postcontainer flex flex-wrap">
-          <% myProducts.reverse( ).map(post=>{ %>
+          <% myProducts.reverse( ).map(product=>{ %>
+          <div class="product-container p-4 w-1/5">
+            <div class="bg-zinc-300 p-4 rounded-xl">
+              <div class="product-image-container h-64">
+                <img
+                  class="product-image rounded-lg h-full"
+                  src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                />
+              </div>
 
-          <div class="card border-2 border-zinc-600 rounded-md p-3 mb-2 bg-zinc-800 w-1/3">
-            <img
-              class="inline-block w-full h-80"
-              src="data:image/jpeg;base64,<%= post.image.toString('base64') %>"
-              alt="img"
-            />
-            <div class="flex justify-between item-center mt-3">
-              <h2 class="text-zinc-300 mb-1 text-xl">Title : <%= post.title %></h2>
-              <h4 class="text-zinc-500 mb-1 text-sm">@ <%= post.user.name %></h4>
-            </div>
-            <p class="text-zinc-400 text-sm"><%= post.content %></p>
-            <small class="text-white inline-block mt-5 mb-2"> likes</small>
-            <div class="flex justify-between items-center">
-              <a class="text-blue-500 me-5" href="/likePost/<%= post._id %>"> </a>
+              <div class="product-name limit-text-to-2-lines mb-5">
+                <p class="font-semibold text-xl"><%= product.proname %></p>
+                <p class="text-sm"><%= product.disc %></p>
+              </div>
+
+              <div class="product-price flex justify-between items-center">
+                <div class="">
+                  <span>Price : </span>
+                  <span>$<%= product.price %></span>
+                </div>
+                <div class="">
+                  <span>Discount : </span>
+                  <span>$<%= product.discount %></span>
+                </div>
+              </div>
+
+              <button class="add-to-cart-button button-primary js-add-to-cart-button font-bold">
+                Add to Cart
+              </button>
             </div>
           </div>
-
           <% }) %>
         </div>
       </div>

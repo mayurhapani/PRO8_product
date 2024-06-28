@@ -43,7 +43,7 @@ const addSubCate = async (req, res) => {
     const { subCate_name, category } = req.body;
     await subCateModel.create({ subCate_name, category });
 
-    req.flash("flashMsg", "categoryAdded");
+    req.flash("flashMsg", "subCateAdded");
     res.redirect("/myProducts");
   } catch (error) {
     console.log(error);
@@ -65,62 +65,48 @@ const addProduct = async (req, res) => {
     const { proname, disc, price, discount, subCat } = req.body;
     const user = req.user._id;
     const image = req.file.buffer;
-    console.log(user);
 
     await productModel.create({ proname, disc, price, discount, subCat, user, image });
 
-    req.flash("flashMsg", "categoryAdded");
+    req.flash("flashMsg", "productAdded");
     res.redirect("/myProducts");
   } catch (error) {
     console.log(error);
   }
 };
 
-const likePost = async (req, res) => {
+const editProductPage = async (req, res) => {
   try {
-    const post = await postModel.findOne({ _id: req.params.id }).populate("user");
+    const product = await productModel.findOne({ _id: req.params.id });
+    const subCates = await subCateModel.find({});
+    const user = req.user;
+    res.cookie("editProduct", product._id);
 
-    if (post.likes.indexOf(req.user._id) === -1) {
-      post.likes.push(req.user._id);
-    } else {
-      post.likes.splice(post.likes.indexOf(req.user._id), 1);
-    }
-
-    await post.save();
-    if (req.query.mypath == "myblogs") {
-      res.redirect("/myblogs");
-    } else {
-      res.redirect("/");
-    }
+    res.render("editProduct", { product, subCates, user });
   } catch (error) {
     console.log(error);
   }
 };
-
-const editPost = async (req, res) => {
+const editProduct = async (req, res) => {
   try {
-    const post = await postModel.findOne({ _id: req.params.id }).populate("user");
-    res.render("edit", { post });
-  } catch (error) {
-    console.log(error);
-  }
-};
+    const { proname, disc, price, discount, subCat } = req.body;
+    const productId = req.cookies.editProduct;
 
-const editPostPage = async (req, res) => {
-  try {
-    const { title, content } = req.body;
-    const post = await postModel.findOne({ _id: req.params.id });
-    let image = post.image;
+    const product = await productModel.findOne({ _id: productId });
+    let image = product.image;
 
     if (req.file) {
-      fs.unlinkSync(post.image);
-
-      image = req.file.path;
+      image = req.file.buffer;
     }
 
-    await postModel.findOneAndUpdate({ _id: req.params.id }, { title, content, image });
+    await productModel.findOneAndUpdate(
+      { _id: productId },
+      { proname, disc, price, discount, subCat, image }
+    );
+
     req.flash("flashMsg", "postEdited");
-    res.redirect("/myblogs");
+    res.clearCookie("editProduct");
+    res.redirect("/myProducts");
   } catch (error) {
     console.log(error);
   }
@@ -129,24 +115,11 @@ const editPostPage = async (req, res) => {
 const deletePost = async (req, res) => {
   try {
     const postId = req.params.id;
-    const post = await postModel.findById(postId);
+    console.log(postId);
 
-    if (post.user.valueOf() != req.user.id) {
-      return res.status(403).send("Unauthorized");
-    }
-
-    if (post.image) {
-      let subImagePath = post.image.replace(/\\/g, "/");
-      if (subImagePath.startsWith("public/")) {
-        subImagePath = subImagePath.substring("public/".length);
-      }
-      const imagePath = path.join(__dirname, "..", "public", subImagePath);
-      fs.unlinkSync(imagePath);
-    }
-
-    await postModel.findByIdAndDelete(postId);
-    req.flash("flashMsg", "deletePost");
-    res.redirect("/myblogs");
+    await productModel.findByIdAndDelete(postId);
+    req.flash("flashMsg", "deleteProduct");
+    res.redirect("/myProducts");
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
@@ -155,9 +128,7 @@ const deletePost = async (req, res) => {
 
 module.exports = {
   myPost,
-  likePost,
-  editPost,
-  editPostPage,
+
   deletePost,
   addCate,
   addCatepage,
@@ -165,4 +136,6 @@ module.exports = {
   addSubCatePage,
   addProduct,
   addProductPage,
+  editProductPage,
+  editProduct,
 };
