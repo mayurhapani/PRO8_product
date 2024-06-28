@@ -19,6 +19,10 @@
         <p class="text-green-600 text-xl font-semibold py-5 ps-5 bg-green-200 mb-5 rounded-lg">
           New Sub Category Added Successfully
         </p>
+        <% } %> <% if (message ==='CompanyAdded') { %>
+        <p class="text-green-600 text-xl font-semibold py-5 ps-5 bg-green-200 mb-5 rounded-lg">
+          New Company Added Successfully
+        </p>
         <% } %><% if (message ==='productAdded') { %>
         <p class="text-green-600 text-xl font-semibold py-5 ps-5 bg-green-200 mb-5 rounded-lg">
           New Product Added Successfully
@@ -63,7 +67,7 @@
               <div class="bg-zinc-300 p-4 rounded-xl">
                 <div class="product-image-container h-64">
                   <img
-                    class="product-image rounded-lg h-full"
+                    class="product-image rounded-lg h-full w-full"
                     src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
                   />
                 </div>

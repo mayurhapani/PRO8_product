@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+
+  <body>
+    <%- include('./partials/header') %>
+
+    <main class="flex flex-row">
+      <%- include('./partials/aside') %>
+
+      <div class="basis-9/12 bg-zinc-900 min-h-screen w-full p-10">
+        <div class="flex justify-start items-center mb-10">
+          <img
+            class="inline-block h-20 w-20 rounded-full"
+            src="data:image/jpeg;base64,<%= user.image.toString('base64') %>"
+            alt="image"
+          />
+          <h2 class="text-white text-4xl font-bold ms-10">Hello, <%= user.name %> !</h2>
+        </div>
+
+        <form action="/product/addCompany" method="post">
+          <input
+            class="bg-transparent p-3 w-2/3 outline-none border-2 border-zinc-600 rounded-lg text-white block mb-5"
+            name="company_name"
+            type="text"
+            placeholder="Enter Product Company"
+          />
+
+          <select
+            class="bg-transparent p-3 w-2/3 outline-none border-2 border-zinc-600 rounded-lg text-white block mb-20"
+            name="subCat"
+            id=""
+          >
+            <option
+              style="
+                color: white;
+                background-color: rgb(59, 59, 59);
+                font-size: 16px;
+                font-family: Arial, sans-serif;
+              "
+              value=""
+              disabled
+              selected
+            >
+              -----Select Sub Category-----
+            </option>
+            <% subCates.map((cate)=>{ %>
+            <option
+              style="
+                color: white;
+                background-color: rgb(59, 59, 59);
+                font-size: 16px;
+                font-family: Arial, sans-serif;
+              "
+              value="<%= cate._id %>"
+            >
+              <%= cate.subCate_name %>
+            </option>
+            <% }) %>
+          </select>
+
+          <input
+            class="bg-blue-500 p-3 rounded-lg w-56 mt-3 text-white block"
+            type="submit"
+            value="Create New Company"
+          />
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

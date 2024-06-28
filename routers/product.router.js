@@ -11,6 +11,8 @@ const {
   addSubCate,
   addSubCatePage,
   addProduct,
+  addCompanyPage,
+  addCompany,
   addProductPage,
   editProduct,
   editProductPage,
@@ -24,6 +26,9 @@ proRouter.post("/addCate", isAuth, addCate);
 
 proRouter.get("/addSubCate", isAuth, addSubCatePage);
 proRouter.post("/addSubCate", isAuth, addSubCate);
+
+proRouter.get("/addCompany", isAuth, addCompanyPage);
+proRouter.post("/addCompany", isAuth, addCompany);
 
 proRouter.get("/addProduct", isAuth, addProductPage);
 proRouter.post("/addProduct", isAuth, imageUpload, addProduct);

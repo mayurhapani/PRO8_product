@@ -154,7 +154,7 @@ const editUserPage = async (req, res) => {
 const myProducts = async (req, res) => {
   try {
     const user = req.user;
-    const myProducts = await productModel.find({}).populate("user");
+    const myProducts = await productModel.find({ user: user._id });
 
     res.render("myProducts", { user, myProducts, messages: req.flash("flashMsg") });
   } catch (error) {

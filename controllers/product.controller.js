@@ -1,5 +1,6 @@
 const categoryModel = require("../models/category.model");
 const subCateModel = require("../models/subCate.model");
+const companyModel = require("../models/company.model");
 const productModel = require("../models/product.model");
 
 const myPost = async (req, res) => {
@@ -48,23 +49,45 @@ const addSubCate = async (req, res) => {
   }
 };
 
-const addProductPage = async (req, res) => {
+const addCompanyPage = async (req, res) => {
   try {
     const user = req.user;
     const subCates = await subCateModel.find({});
 
-    res.render("addProduct", { user, subCates });
+    res.render("addCompany", { user, subCates });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const addCompany = async (req, res) => {
+  try {
+    const { company_name, subCat } = req.body;
+    await companyModel.create({ company_name, subCat });
+
+    req.flash("flashMsg", "CompanyAdded");
+    res.redirect("/myProducts");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addProductPage = async (req, res) => {
+  try {
+    const user = req.user;
+    const companies = await companyModel.find({});
+
+    res.render("addProduct", { user, companies });
   } catch (error) {
     console.log(error);
   }
 };
 const addProduct = async (req, res) => {
   try {
-    const { proname, disc, price, discount, subCat } = req.body;
+    const { proname, disc, price, discount, subCat, company } = req.body;
     const user = req.user._id;
     const image = req.file.buffer;
 
-    await productModel.create({ proname, disc, price, discount, subCat, user, image });
+    await productModel.create({ proname, disc, price, discount, subCat, user, image, company });
 
     req.flash("flashMsg", "productAdded");
     res.redirect("/myProducts");
@@ -76,11 +99,11 @@ const addProduct = async (req, res) => {
 const editProductPage = async (req, res) => {
   try {
     const product = await productModel.findOne({ _id: req.params.id });
-    const subCates = await subCateModel.find({});
+    const companies = await companyModel.find({});
     const user = req.user;
     res.cookie("editProduct", product._id);
 
-    res.render("editProduct", { product, subCates, user });
+    res.render("editProduct", { product, companies, user });
   } catch (error) {
     console.log(error);
   }
@@ -132,6 +155,8 @@ module.exports = {
   addCatepage,
   addSubCate,
   addSubCatePage,
+  addCompany,
+  addCompanyPage,
   addProduct,
   addProductPage,
   editProductPage,

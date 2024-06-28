@@ -63,8 +63,8 @@
           </div>
 
           <select
-            class="bg-transparent p-3 w-2/3 outline-none border-2 border-zinc-600 rounded-lg text-white block mb-20"
-            name="subCat"
+            class="bg-transparent p-3 w-2/3 outline-none border-2 border-zinc-600 rounded-lg text-white block mb-10"
+            name="company"
             id=""
           >
             <option
@@ -78,9 +78,9 @@
               disabled
               selected
             >
-              -----Select Sub Category-----
+              -----Select Company-----
             </option>
-            <% subCates.map((cate)=>{ %>
+            <% companies.map((cate)=>{ %>
             <option
               style="
                 color: white;
@@ -90,7 +90,7 @@
               "
               value="<%= cate._id %>"
             >
-              <%= cate.subCate_name %>
+              <%= cate.company_name %>
             </option>
             <% }) %>
           </select>

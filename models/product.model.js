@@ -10,9 +10,9 @@ const productSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-  subCat: {
+  company: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "subCat",
+    ref: "company",
   },
 });
 

@@ -72,7 +72,7 @@
 
         <select
           class="bg-transparent p-3 w-2/3 outline-none border-2 border-zinc-600 rounded-lg text-white block mb-20"
-          name="subCat"
+          name="company"
           id=""
         >
           <option
@@ -86,9 +86,9 @@
             disabled
             selected
           >
-            -----Select Sub Category-----
+            -----Select Company-----
           </option>
-          <% subCates.map((cate)=>{ %>
+          <% companies.map((cate)=>{ %>
           <option
             style="
               color: white;
@@ -97,9 +97,9 @@
               font-family: Arial, sans-serif;
             "
             value="<%= cate._id %>"
-             <% if (cate._id == product.subCat.toString()) { %>  selected <% } %> 
+             <% if (cate._id == product.company.toString()) { %>  selected <% } %> 
           >
-            <%= cate.subCate_name %>
+            <%= cate.company_name %>
           </option>
           <% }) %>
         </select>
