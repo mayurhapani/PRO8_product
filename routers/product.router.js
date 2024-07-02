@@ -16,6 +16,8 @@ const {
   addProductPage,
   editProduct,
   editProductPage,
+  getSubCatData,
+  getCompanyData,
 } = require("../controllers/product.controller");
 const { isAuth } = require("../middlewares/isAuth");
 
@@ -37,5 +39,9 @@ proRouter.get("/editProduct/:id", isAuth, editProductPage);
 proRouter.post("/editProduct", isAuth, imageUpload, editProduct);
 
 proRouter.get("/deletePost/:id", isAuth, deletePost);
+
+// Define a route to fetch data
+proRouter.get("/api/subCat/:id", getSubCatData);
+proRouter.get("/api/company/:id", getCompanyData);
 
 module.exports = { proRouter };

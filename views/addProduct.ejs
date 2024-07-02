@@ -63,9 +63,8 @@
           </div>
 
           <select
-            class="bg-transparent p-3 w-2/3 outline-none border-2 border-zinc-600 rounded-lg text-white block mb-10"
-            name="company"
-            id=""
+            class="bg-transparent p-3 w-2/3 outline-none border-2 border-zinc-600 rounded-lg text-white block mt-10 mb-3"
+            id="category_select"
           >
             <option
               style="
@@ -78,9 +77,9 @@
               disabled
               selected
             >
-              -----Select Company-----
+              -----Select Product Category-----
             </option>
-            <% companies.map((cate)=>{ %>
+            <% categories.map((cate)=>{ %>
             <option
               style="
                 color: white;
@@ -90,9 +89,38 @@
               "
               value="<%= cate._id %>"
             >
-              <%= cate.company_name %>
+              <%= cate.cate_name %>
             </option>
             <% }) %>
+          </select>
+
+          <select
+            class="subCat bg-transparent p-3 w-2/3 outline-none border-2 border-zinc-600 rounded-lg text-white block mb-3 hidden"
+            id="subCat_select"
+          >
+            <option class="selectOption" value="" disabled selected>
+              -----Select Product Sub Category-----
+            </option>
+          </select>
+
+          <select
+            class="company bg-transparent p-3 w-2/3 outline-none border-2 border-zinc-600 rounded-lg text-white block mb-3 hidden"
+            id="company_select"
+            name="company"
+          >
+            <option
+              style="
+                color: white;
+                background-color: rgb(59, 59, 59);
+                font-size: 16px;
+                font-family: Arial, sans-serif;
+              "
+              value=""
+              disabled
+              selected
+            >
+              -----Select Product Company-----
+            </option>
           </select>
 
           <input
@@ -103,5 +131,90 @@
         </form>
       </div>
     </main>
+
+    <!-- sub Category select option -->
+    <script>
+      const selectCategory = async () => {
+        const categoryId = document.getElementById("category_select").value;
+
+        try {
+          const response = await axios.get(
+            `http://localhost:8002/product/api/subCat/${categoryId}`
+          );
+          const subCat = response.data;
+
+          if (subCat.length > 0) {
+            document.querySelector(".subCat").classList.remove("hidden");
+          } else {
+            document.querySelector(".subCat").classList.add("hidden");
+          }
+          let subCatData = "";
+
+          subCat.forEach((cate) => {
+            subCatData += `
+            <option class="selectOption" value="${cate._id}">${cate.subCate_name}</option>
+          `;
+          });
+
+          const selectSubCat = document.getElementById("subCat_select");
+          selectSubCat.innerHTML = `<option
+             class="selectOption"
+              value=""
+              disabled
+              selected
+            >
+              -----Select Product Sub Category-----
+            </option>`;
+
+          selectSubCat.innerHTML += subCatData;
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+      document.getElementById("category_select").addEventListener("change", selectCategory);
+    </script>
+
+    <!-- company select option -->
+    <script>
+      try {
+        const selectCompany = async () => {
+          const subCatId = document.getElementById("subCat_select").value;
+          console.log(subCatId);
+
+          const response = await axios.get(`http://localhost:8002/product/api/company/${subCatId}`);
+          const companies = response.data;
+
+          if (companies.length > 0) {
+            document.querySelector(".company").classList.remove("hidden");
+          } else {
+            document.querySelector(".company").classList.add("hidden");
+          }
+
+          let companyData = "";
+
+          companies.map((cate) => {
+            companyData += `
+            <option class="selectOption" value="${cate._id}">${cate.company_name}</option>
+          `;
+          });
+
+          const selectCompanies = document.getElementById("company_select");
+
+          selectCompanies.innerHTML = `<option
+             class="selectOption"
+              value=""
+              disabled
+              selected
+            >
+             -----Select Product Company-----
+            </option>`;
+
+          selectCompanies.innerHTML += companyData;
+        };
+        document.getElementById("subCat_select").addEventListener("change", selectCompany);
+      } catch (error) {
+        console.log(error.message);
+      }
+    </script>
   </body>
 </html>

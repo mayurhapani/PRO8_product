@@ -74,9 +74,9 @@ const addCompany = async (req, res) => {
 const addProductPage = async (req, res) => {
   try {
     const user = req.user;
-    const companies = await companyModel.find({});
+    const categories = await categoryModel.find({});
 
-    res.render("addProduct", { user, companies });
+    res.render("addProduct", { user, categories });
   } catch (error) {
     console.log(error);
   }
@@ -147,6 +147,26 @@ const deletePost = async (req, res) => {
   }
 };
 
+const getSubCatData = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const subCat = await subCateModel.find({ category: id });
+    res.json(subCat);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const getCompanyData = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const companies = await companyModel.find({ subCat: id });
+    res.json(companies);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
 module.exports = {
   myPost,
 
@@ -161,4 +181,7 @@ module.exports = {
   addProductPage,
   editProductPage,
   editProduct,
+
+  getSubCatData,
+  getCompanyData,
 };
