@@ -166,7 +166,13 @@ const deleteuser = async (req, res) => {
   try {
     const id = req.user.id;
 
+    const products = await productModel.find({ user: id });
+    products.map(async (product) => {
+      await productModel.deleteOne({ _id: product._id });
+    });
+
     await userModel.findOneAndDelete({ _id: id });
+
     console.log("User and associated posts deleted successfully");
     req.flash("flashMsg", "deleteUser");
     res.status(200).json({ message: "User deleted successfully" });
