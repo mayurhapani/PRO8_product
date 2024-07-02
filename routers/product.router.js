@@ -3,8 +3,6 @@ const proRouter = Router();
 
 const { imageUpload } = require("../middlewares/fileUpload.middleware");
 const {
-  myPost,
-
   deletePost,
   addCate,
   addCatepage,
@@ -19,9 +17,8 @@ const {
   getSubCatData,
   getCompanyData,
 } = require("../controllers/product.controller");
-const { isAuth } = require("../middlewares/isAuth");
 
-// proRouter.get("/addPost", isAuth, myPost);
+const { isAuth } = require("../middlewares/isAuth");
 
 proRouter.get("/addCate", isAuth, addCatepage);
 proRouter.post("/addCate", isAuth, addCate);

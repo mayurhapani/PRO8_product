@@ -3,10 +3,6 @@ const subCateModel = require("../models/subCate.model");
 const companyModel = require("../models/company.model");
 const productModel = require("../models/product.model");
 
-const myPost = async (req, res) => {
-  res.render("myblogs");
-};
-
 const addCatepage = async (req, res) => {
   try {
     const user = req.user;
@@ -168,8 +164,6 @@ const getCompanyData = async (req, res) => {
 };
 
 module.exports = {
-  myPost,
-
   deletePost,
   addCate,
   addCatepage,
