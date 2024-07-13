@@ -16,7 +16,7 @@ const allProducts = async (req, res) => {
       .find({})
       .populate("user")
       .populate({ path: "company", populate: { path: "subCat", populate: { path: "category" } } });
-    console.log(myProducts);
+    // console.log(myProducts);
 
     res.render("index", { user, myProducts });
   } catch (error) {
