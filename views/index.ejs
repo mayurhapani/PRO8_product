@@ -31,9 +31,26 @@
                 />
               </div>
 
-              <div class="product-name limit-text-to-2-lines mb-5">
+              <div class="product-name limit-text-to-2-lines mb-3">
                 <p class="font-semibold text-xl"><%= product.proname %></p>
                 <p class="text-sm"><%= product.disc %></p>
+              </div>
+
+              <div class="product-name limit-text-to-2-lines mb-12">
+                <table width="100%">
+                  <tr>
+                    <td>Category :</td>
+                    <td><%= product.company.company_name %></td>
+                  </tr>
+                  <tr>
+                    <td>Sub Category :</td>
+                    <td><%= product.company.subCat.subCate_name %></td>
+                  </tr>
+                  <tr>
+                    <td>Company :</td>
+                    <td><%= product.company.subCat.category.cate_name %></td>
+                  </tr>
+                </table>
               </div>
 
               <div class="product-price flex justify-between items-center">

@@ -12,7 +12,11 @@ const secret = "secret";
 const allProducts = async (req, res) => {
   try {
     const user = req.user;
-    const myProducts = await productModel.find({}).populate("user");
+    const myProducts = await productModel
+      .find({})
+      .populate("user")
+      .populate({ path: "company", populate: { path: "subCat", populate: { path: "category" } } });
+    console.log(myProducts);
 
     res.render("index", { user, myProducts });
   } catch (error) {
@@ -91,7 +95,25 @@ const userOtp = async (req, res) => {
       from: "hapanimayur@gmail.com",
       to: user.email,
       subject: "Register User Verification OTP",
-      text: otp.toString(),
+      text: `Subject: Your OTP for Registration Verification
+
+Dear User,
+
+Thank you for registering with Sunadaram Enterprise.
+
+To complete your registration, please use the One-Time Password (OTP) provided below. This OTP is valid for the next 10 minutes. Please do not share this OTP with anyone.
+
+Your OTP:${otp.toString()}
+
+If you did not initiate this request, please contact our support team immediately.
+
+Thank you for choosing [Your Company/Service Name]. We look forward to serving you.
+
+Best regards,
+
+Mayur Hapani
+Co-Founder
+`,
     };
 
     transporter.sendMail(sendMail, (err, info) => {
@@ -237,7 +259,25 @@ const forgetPass = async (req, res) => {
         from: "hapanimayur@gmail.com",
         to: req.body.userEmail,
         subject: "Reset Password",
-        text: otp.toString(),
+        text: `Subject: Your OTP for Registration Verification
+
+Dear User,
+
+Thank you for registering with Sunadaram Enterprise.
+
+To complete your registration, please use the One-Time Password (OTP) provided below. This OTP is valid for the next 10 minutes. Please do not share this OTP with anyone.
+
+Your OTP:${otp.toString()}
+
+If you did not initiate this request, please contact our support team immediately.
+
+Thank you for choosing [Your Company/Service Name]. We look forward to serving you.
+
+Best regards,
+
+Mayur Hapani
+Co-Founder
+`,
       };
 
       transporter.sendMail(sendMail, (err, info) => {
