@@ -37,7 +37,11 @@
               </div>
 
               <div class="product-name limit-text-to-2-lines mb-12">
-                <table width="100%">
+                <table width="100%" class="text-sm">
+                  <tr>
+                    <td>Seller :</td>
+                    <td><%= user.username %></td>
+                  </tr>
                   <tr>
                     <td>Category :</td>
                     <td><%= product.company.company_name %></td>
