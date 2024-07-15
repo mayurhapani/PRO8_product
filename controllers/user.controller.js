@@ -107,7 +107,7 @@ Your OTP:${otp.toString()}
 
 If you did not initiate this request, please contact our support team immediately.
 
-Thank you for choosing [Your Company/Service Name]. We look forward to serving you.
+Thank you for choosing Sunadaram Enterprise. We look forward to serving you.
 
 Best regards,
 
@@ -259,19 +259,19 @@ const forgetPass = async (req, res) => {
         from: "hapanimayur@gmail.com",
         to: req.body.userEmail,
         subject: "Reset Password",
-        text: `Subject: Your OTP for Registration Verification
+        text: `Subject: Your OTP for reset password 
 
 Dear User,
 
-Thank you for registering with Sunadaram Enterprise.
+Thank you for be with Sunadaram Enterprise.
 
-To complete your registration, please use the One-Time Password (OTP) provided below. This OTP is valid for the next 10 minutes. Please do not share this OTP with anyone.
+To complete your password reset, please use the One-Time Password (OTP) provided below. This OTP is valid for the next 10 minutes. Please do not share this OTP with anyone.
 
 Your OTP:${otp.toString()}
 
 If you did not initiate this request, please contact our support team immediately.
 
-Thank you for choosing [Your Company/Service Name]. We look forward to serving you.
+Thank you for choosing Sunadaram Enterprise. We look forward to serving you.
 
 Best regards,
 
